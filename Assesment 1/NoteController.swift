@@ -51,19 +51,15 @@ class NoteController {
     
     func fileURL() -> URL {
            
-           // grab the path of where we are saving or grabbing our data
+           
            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
            
-           // grabbing the first path we got back
            let documentDirectory = paths[0]
            
-           // deciding the name of the file that we want
            let filename = "Note.json"
-           
-           // putting our fill URL together
+   
            let fullURL = documentDirectory.appendingPathComponent(filename)
-           
-           // returning the full URL
+
            return fullURL
        }
        
@@ -73,12 +69,12 @@ class NoteController {
            let jsonEncoder = JSONEncoder()
            
            do {
-               // try to encode the data
+               
                let data = try jsonEncoder.encode(notes)
-               // try to save the data
+               
                try data.write(to: fileURL())
            }
-               // catching errors
+               
            catch let error {
                print("\(error.localizedDescription) -> \(error)")
            }
@@ -86,16 +82,14 @@ class NoteController {
        
        func loadFromPersistence()  {
            
-           // create json decoder
+           
            let jsonDecoder = JSONDecoder()
            do {
-               // grab data from file path
+               
                let data = try Data(contentsOf: fileURL())
                
-               // decoding our data into the type Array of Quote from the data that we just grabbed
                let notes = try jsonDecoder.decode([Note].self, from: data)
                
-               // setting our source of truth to quotesDecoded
                self.notes = notes
            }
            catch let error {

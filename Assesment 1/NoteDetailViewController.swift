@@ -9,22 +9,48 @@
 import UIKit
 
 class NoteDetailViewController: UIViewController {
+    
+    //MARK:- Outlets
+    
+    @IBOutlet weak var noteTextField: UITextView!
+    
+    //MARK:- Properties
+    var note: Note?
+    
+    //MARK:- Life Cycle
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        updateViews()
     }
     
+    //MARK:-Actions
+    
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        
+        guard let noteText = noteTextField.text else {return}
+        
+        if let note = note {
+            
+            NoteController.sharedInstance.updateNote(note: note, newNoteText: noteText)
+        }
+        else {
+            
+            NoteController.sharedInstance.createNote(noteText: noteText)
+        }
+        navigationController?.popViewController(animated: true)
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+//MARK:- Helper Functions
 
+    func updateViews() {
+        
+        guard let note = note else {return}
+        
+        noteTextField.text = note.noteText
+        
+}
 }
